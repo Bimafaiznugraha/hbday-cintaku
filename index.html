@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Love Story: Rahma 💜</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;700;800&display=swap');
+
+:root {
+  --bg:        #0c0715;
+  --bg2:       #140d22;
+  --purple1:   #7b2fff;
+  --purple2:   #a855f7;
+  --purple3:   #c084fc;
+  --purple4:   #e9d5ff;
+  --accent:    #d946ef;
+  --skull:     #e2d9f3;
+  --dark:      #1e1030;
+  --card:      rgba(30,16,48,0.88);
+  --glow1: 0 0 18px #7b2fff99, 0 0 40px #7b2fff44;
+  --glow2: 0 0 18px #a855f799, 0 0 40px #a855f744;
+  --glow3: 0 0 18px #d946ef99, 0 0 40px #d946ef44;
+  --star:      #f0e0ff;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  background: var(--bg);
+  font-family:'Nunito',sans-serif;
+  color:var(--purple4);
+  overflow-x:hidden;
+  min-height:100vh;
+  cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ctext y='20' font-size='20'%3E💜%3C/text%3E%3C/svg%3E"),auto;
+}
+
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 20%, #3b0764 0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 80% 80%, #4c1d95 0%, transparent 55%),
+    radial-gradient(ellipse 40% 40% at 60% 30%, #6b21a8 0%, transparent 50%);
+  pointer-events:none;
+  z-index:0;
+}
+
+canvas#starCanvas{
+  position:fixed;inset:0;width:100%;height:100%;
+  pointer-events:none;z-index:1;
+}
+
+.floaters{position:fixed;inset:0;pointer-events:none;z-index:2;overflow:hidden;}
+.flt{
+  position:absolute;bottom:-60px;
+  animation:floatUp linear infinite;
+  opacity:.7;
+}
+@keyframes floatUp{
+  0%{transform:translateY(0) rotate(-10deg);opacity:.7;}
+  100%{transform:translateY(-110vh) rotate(10deg);opacity:0;}
+}
+
+.screen{
+  display:none;position:relative;z-index:10;
+  min-height:100vh;width:100%;
+  flex-direction:column;align-items:center;justify-content:center;
+  padding:24px 16px;
+}
+.screen.active{display:flex;}
+.screen{animation:screenIn .55s cubic-bezier(.22,1,.36,1);}
+@keyframes screenIn{
+  from{opacity:0;transform:translateY(22px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+.pbox{
+  background:var(--card);
+  border:2px solid var(--purple2);
+  box-shadow:var(--glow2), inset 0 0 40px #7b2fff11;
+  backdrop-filter:blur(12px);
+  border-radius:6px;
+  position:relative;
+}
+.pbox::before,.pbox::after{
+  content:'';position:absolute;
+  width:12px;height:12px;
+  background:var(--accent);
+  box-shadow:var(--glow3);
+  border-radius:2px;
+}
+.pbox::before{top:-6px;left:-6px;}
+.pbox::after{bottom:-6px;right:-6px;}
+
+.badge{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(6px,1.1vw,9px);
+  color:var(--purple3);
+  border:1px solid var(--purple2);
+  background:rgba(123,47,255,.15);
+  box-shadow:var(--glow2);
+  padding:6px 16px;
+  letter-spacing:2px;
+  display:inline-block;
+  margin-bottom:18px;
+}
+
+.gtitle{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(13px,2.8vw,26px);
+  color:var(--purple3);
+  text-shadow:var(--glow2);
+  line-height:1.9;
+  animation:tpulse 2.4s ease-in-out infinite;
+}
+.gsubtitle{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(7px,1.3vw,11px);
+  color:var(--accent);
+  text-shadow:var(--glow3);
+  letter-spacing:3px;
+  margin-bottom:32px;
+}
+.stitle{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(10px,2vw,16px);
+  color:var(--purple3);
+  text-shadow:var(--glow2);
+  margin-bottom:14px;text-align:center;
+}
+@keyframes tpulse{
+  0%,100%{text-shadow:var(--glow2);}
+  50%{text-shadow:0 0 30px #a855f7,0 0 60px #a855f7,0 0 90px #7b2fff;}
+}
+
+.stext{
+  font-size:clamp(13px,1.9vw,16px);
+  color:var(--purple4);
+  line-height:1.9;
+  text-align:center;
+  max-width:500px;
+  margin:0 auto 22px;
+  font-weight:600;
+}
+
+.btn{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(7px,1.3vw,10px);
+  padding:13px 26px;
+  background:transparent;
+  border:2px solid var(--purple2);
+  color:var(--purple3);
+  cursor:pointer;
+  letter-spacing:2px;
+  box-shadow:var(--glow2);
+  position:relative;overflow:hidden;
+  margin:6px;transition:all .2s;
+  border-radius:3px;
+}
+.btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--purple1),var(--accent));
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .22s;z-index:-1;
+}
+.btn:hover::before{transform:scaleX(1);}
+.btn:hover{color:#fff;box-shadow:0 0 30px var(--accent);}
+.btn:active{transform:scale(.97);}
+
+.btn-acc{border-color:var(--accent);color:var(--accent);box-shadow:var(--glow3);}
+.btn-acc::before{background:linear-gradient(135deg,var(--accent),var(--purple2));}
+.btn-acc:hover{box-shadow:0 0 30px var(--purple2);}
+
+.pgbar{
+  width:100%;max-width:480px;height:10px;
+  background:rgba(255,255,255,.07);
+  border:1px solid var(--purple2);
+  margin:16px auto;overflow:hidden;
+}
+.pgfill{
+  height:100%;
+  background:linear-gradient(90deg,var(--purple1),var(--accent));
+  box-shadow:var(--glow3);
+  transition:width .5s ease;
+}
+
+.kuromi-deco{
+  display:flex;justify-content:center;
+  gap:20px;margin:10px 0;
+}
+.kuromi-deco svg{filter:drop-shadow(0 0 12px #a855f7cc);}
+.kuromi-float{animation:kfloat 3s ease-in-out infinite;}
+.kuromi-float2{animation:kfloat 3s ease-in-out infinite;animation-delay:.8s;}
+@keyframes kfloat{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-12px);}
+}
+
+.pixel-scene{
+  display:flex;align-items:flex-end;justify-content:center;
+  gap:30px;margin:18px auto;height:110px;
+}
+.pchr{display:flex;flex-direction:column;align-items:center;gap:4px;
+  animation:charBob 2s ease-in-out infinite;}
+.pchr:nth-child(3){animation-delay:.5s;}
+.chrname{font-family:'Press Start 2P',monospace;font-size:7px;
+  color:var(--purple3);text-shadow:var(--glow2);}
+@keyframes charBob{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+
+.memmap{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+  gap:14px;max-width:540px;width:100%;margin:16px auto;
+}
+.memcard{
+  background:rgba(123,47,255,.1);
+  border:2px solid var(--purple2);
+  box-shadow:var(--glow2);
+  padding:18px 12px;text-align:center;
+  cursor:pointer;transition:all .25s;border-radius:4px;
+}
+.memcard:hover{background:rgba(168,85,247,.22);transform:translateY(-5px) scale(1.05);box-shadow:0 0 30px var(--purple2);}
+.memcard.visited{border-color:var(--accent);box-shadow:var(--glow3);}
+.memoji{font-size:30px;margin-bottom:8px;display:block;}
+.mlabel{font-family:'Press Start 2P',monospace;font-size:7px;color:var(--purple3);line-height:1.7;}
+.memcard.visited .mlabel{color:var(--accent);}
+
+.popup{
+  display:none;position:fixed;inset:0;
+  background:rgba(12,7,21,.93);z-index:100;
+  align-items:center;justify-content:center;padding:20px;
+  backdrop-filter:blur(6px);
+}
+.popup.open{display:flex;}
+.popinner{max-width:480px;width:100%;padding:34px 28px;
+  animation:popIn .3s cubic-bezier(.34,1.56,.64,1);text-align:center;}
+@keyframes popIn{
+  from{transform:scale(.65) rotate(-5deg);opacity:0;}
+  to{transform:scale(1) rotate(0);opacity:1;}
+}
+.ptitle{font-family:'Press Start 2P',monospace;font-size:clamp(8px,1.6vw,12px);
+  color:var(--purple3);text-shadow:var(--glow2);margin-bottom:12px;}
+.pstory{font-size:clamp(12px,1.8vw,15px);color:var(--purple4);line-height:1.9;margin-bottom:18px;font-weight:600;}
+.pphoto{width:100%;max-width:280px;height:150px;border:2px dashed var(--purple2);
+  margin:0 auto 14px;display:flex;align-items:center;justify-content:center;
+  font-family:'Press Start 2P',monospace;font-size:7px;color:var(--purple2);
+  opacity:.5;line-height:2;text-align:center;overflow:hidden;}
+
+.heartcol{display:flex;flex-wrap:wrap;justify-content:center;
+  gap:12px;max-width:500px;margin:18px auto;}
+.hitem{
+  width:66px;height:66px;
+  background:rgba(123,47,255,.12);
+  border:2px solid var(--purple2);box-shadow:var(--glow2);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:26px;cursor:pointer;transition:all .2s;
+}
+.hitem:hover{transform:scale(1.18);background:rgba(168,85,247,.28);box-shadow:0 0 28px var(--purple2);}
+.hitem.col{border-color:var(--accent);box-shadow:var(--glow3);
+  background:rgba(217,70,239,.15);animation:hcol .5s ease;}
+@keyframes hcol{0%{transform:scale(1);}50%{transform:scale(1.35) rotate(12deg);}100%{transform:scale(1);}}
+.ccnt{font-family:'Press Start 2P',monospace;font-size:9px;
+  color:var(--accent);text-shadow:var(--glow3);text-align:center;margin:8px 0;}
+
+.rp{
+  position:fixed;pointer-events:none;z-index:200;
+  font-size:13px;font-weight:700;color:var(--purple3);
+  text-shadow:var(--glow2);
+  animation:rpfl 2s ease forwards;max-width:200px;text-align:center;line-height:1.5;
+  font-family:'Nunito',sans-serif;
+}
+@keyframes rpfl{
+  0%{opacity:0;transform:translateY(0);}20%{opacity:1;}
+  80%{opacity:1;}100%{opacity:0;transform:translateY(-75px);}
+}
+
+.arena{
+  width:100%;max-width:480px;height:280px;
+  position:relative;border:2px solid var(--purple2);
+  box-shadow:var(--glow2);overflow:hidden;
+  background:rgba(123,47,255,.06);
+  margin:14px auto;cursor:crosshair;
+}
+.bhrt{position:absolute;font-size:34px;cursor:pointer;
+  animation:bhapp .3s ease;user-select:none;
+  filter:drop-shadow(0 0 8px #a855f7);transition:transform .1s;}
+.bhrt:hover{transform:scale(1.22)!important;}
+@keyframes bhapp{from{transform:scale(0) rotate(-20deg);opacity:0;}to{transform:scale(1);opacity:1;}}
+.bscore{font-family:'Press Start 2P',monospace;font-size:10px;
+  color:var(--purple3);text-shadow:var(--glow2);text-align:center;margin-bottom:6px;}
+.btimer{font-family:'Press Start 2P',monospace;font-size:9px;
+  color:var(--accent);text-align:center;margin-bottom:10px;}
+
+.wintext{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(11px,2.2vw,20px);
+  color:var(--accent);text-shadow:var(--glow3);
+  text-align:center;animation:wglow 1.5s ease-in-out infinite;
+  line-height:2.1;margin:18px 0;
+}
+@keyframes wglow{
+  0%,100%{text-shadow:var(--glow3);}
+  50%{text-shadow:0 0 40px var(--accent),0 0 80px var(--accent);}
+}
+
+.ltbox{max-width:540px;width:100%;padding:34px 30px;}
+.bday-ttl{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(9px,1.8vw,14px);
+  color:var(--purple3);text-shadow:var(--glow2);
+  text-align:center;margin-bottom:22px;line-height:2.1;
+  animation:tpulse 2s ease-in-out infinite;
+}
+.ltxt{font-size:clamp(13px,1.9vw,16px);color:var(--purple4);
+  line-height:2.1;white-space:pre-line;font-weight:600;}
+.lc{opacity:0;animation:lrev .03s ease forwards;}
+@keyframes lrev{to{opacity:1;}}
+
+.smsg{font-size:clamp(13px,1.9vw,17px);color:var(--purple4);
+  line-height:2.1;max-width:480px;font-weight:700;}
+
+.skull-row{
+  display:flex;justify-content:center;gap:14px;
+  margin:10px 0;opacity:.5;
+}
+.skull-row span{font-size:16px;filter:drop-shadow(0 0 4px var(--purple2));}
+
+canvas#confCanvas{position:fixed;inset:0;pointer-events:none;z-index:50;}
+
+.sbtn{
+  position:fixed;top:14px;right:14px;z-index:999;
+  font-size:18px;background:rgba(12,7,21,.75);
+  border:1px solid var(--purple2);color:var(--purple4);
+  padding:8px 12px;cursor:pointer;border-radius:4px;
+  box-shadow:var(--glow2);transition:all .2s;
+  font-family:'Press Start 2P',monospace;font-size:9px;
+}
+.sbtn:hover{background:rgba(123,47,255,.3);}
+
+.strigger{
+  position:fixed;bottom:14px;right:14px;z-index:50;
+  opacity:0;transition:opacity .5s;
+  font-family:'Press Start 2P',monospace;font-size:8px;
+}
+.strigger.vis{opacity:1;}
+
+.ndots{display:flex;gap:10px;margin:20px auto 4px;justify-content:center;}
+.nd{width:10px;height:10px;background:rgba(255,255,255,.1);
+  border:1px solid var(--purple2);border-radius:2px;transition:all .3s;}
+.nd.active{background:var(--purple2);box-shadow:var(--glow2);}
+
+.spk{position:fixed;pointer-events:none;z-index:300;font-size:16px;
+  animation:spkp .75s ease forwards;}
+@keyframes spkp{
+  0%{transform:scale(0) rotate(0);opacity:1;}
+  60%{transform:scale(1.5) rotate(30deg);opacity:1;}
+  100%{transform:scale(0) rotate(70deg);opacity:0;}
+}
+
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--purple2);border-radius:3px;}
+
+@media(max-width:480px){
+  .ltbox,.pbox{padding:20px 15px;}
+  .arena{height:210px;}
+  .hitem{width:56px;height:56px;font-size:22px;}
+  .pixel-scene{gap:16px;height:85px;}
+}
+</style>
+</head>
+<body>
+
+<canvas id="starCanvas"></canvas>
+<div class="floaters" id="floaters"></div>
+<canvas id="confCanvas"></canvas>
+
+<!-- ===== AUDIO ===== -->
+<audio id="bgm" loop>
+  <source src="Soulmate.mp3" type="audio/mpeg">
+</audio>
+
+<button class="sbtn" id="sbtn">🎵 SFX</button>
+<button class="btn strigger" id="strig" onclick="goSecret()">🎁 Secret</button>
+
+<!-- ========== START ========== -->
+<div class="screen active" id="startScreen">
+  <div class="pbox" style="padding:38px 44px;max-width:580px;width:100%;text-align:center;">
+    <div class="kuromi-deco" style="margin-bottom:6px;">
+      <img
+        id="maskot-start"
+        class="kuromi-float"
+        src="https://i.imgur.com/placeholder.png"
+        alt="Maskot"
+        width="90"
+        height="90"
+        style="object-fit:contain; filter:drop-shadow(0 0 14px #a855f7cc);"
+        onerror="this.outerHTML='<span style=\'font-size:64px;filter:drop-shadow(0 0 14px #a855f7cc);animation:kfloat 3s ease-in-out infinite;\'>🖤</span>';"
+      />
+    </div>
+    <div class="badge">✦ PRESS START ✦</div>
+    <div class="gtitle">A Love Story</div>
+    <div class="gtitle" style="font-size:clamp(10px,1.9vw,17px);color:var(--accent);">Rahma Adinda Putri 💜</div>
+    <div class="gsubtitle">— a birthday adventure —</div>
+    <div class="skull-row">
+      <span>💀</span><span>💜</span><span>☆</span><span>💜</span><span>💀</span>
+    </div>
+    <div class="ndots">
+      <div class="nd active"></div><div class="nd"></div><div class="nd"></div>
+      <div class="nd"></div><div class="nd"></div>
+    </div>
+    <div style="margin-top:24px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn" onclick="startGame()">▶ START GAME</button>
+    </div>
+    <p style="font-family:'Press Start 2P',monospace;font-size:7px;color:var(--purple2);margin-top:18px;opacity:.7;">made with 💜 just for you</p>
+  </div>
+</div>
+
+<!-- ========== LEVEL 1 ========== -->
+<div class="screen" id="level1Screen">
+  <div class="pbox" style="padding:30px 26px;max-width:560px;width:100%;text-align:center;">
+    <div class="badge">LEVEL 1 — FIRST MEET</div>
+    <div class="stitle">Di Sinilah Semua Dimulai…</div>
+    <div class="pixel-scene" id="pixelScene1"></div>
+    <div class="stext" id="l1txt" style="opacity:0;transition:opacity .8s;">
+      Waktu pertama kali kita ketemu aku gk expect kalau kita bakal sampai dititik ini.<br><br>
+      Tapi sekarang aku tau ketemu kamu adalah awal dari cerita paling indah yang pernah aku jalani.
+    </div>
+    <div class="kuromi-deco" style="margin:10px 0;opacity:.75;">
+      <img
+        id="maskot-level1"
+        src="https://i.imgur.com/placeholder.png"
+        alt="Maskot"
+        width="56"
+        height="56"
+        style="object-fit:contain; filter:drop-shadow(0 0 10px #a855f7cc); animation:kfloat 3s ease-in-out infinite;"
+        onerror="this.outerHTML='<span style=\'font-size:40px;filter:drop-shadow(0 0 10px #a855f7cc);animation:kfloat 3s ease-in-out infinite;\'>🖤</span>';"
+      />
+    </div>
+    <button class="btn" onclick="goTo('level2Screen',2)">→ NEXT LEVEL</button>
+  </div>
+</div>
+
+<!-- ========== LEVEL 2 ========== -->
+<div class="screen" id="level2Screen">
+  <div style="max-width:560px;width:100%;text-align:center;">
+    <div class="badge">LEVEL 2 — OUR MEMORIES</div>
+    <div class="stitle">Pilih Kenangan 💜</div>
+    <p class="stext">Tiap momen sama kamu selalu kerasa spesial.<br>Klik untuk buka kenangan kita.</p>
+    <div class="memmap">
+      <div class="memcard" id="mc1" onclick="openMem(1)"><span class="memoji">💬</span><div class="mlabel">Moleskuyyyy<br></div></div>
+      <div class="memcard" id="mc2" onclick="openMem(2)"><span class="memoji">🌸</span><div class="mlabel">Rolnux<br>Date</div></div>
+      <div class="memcard" id="mc3" onclick="openMem(3)"><span class="memoji">✨</span><div class="mlabel">Genshin<br></div></div>
+    </div>
+    <div id="nextMem" style="display:none;margin-top:18px;">
+      <button class="btn" onclick="goTo('level3Screen',3)">→ LANJUT LEVEL 3</button>
+    </div>
+  </div>
+</div>
+
+<!-- Memory Popup -->
+<div class="popup" id="memPopup">
+  <div class="pbox popinner">
+    <span style="font-size:44px;" id="pEmoji">💬</span>
+    <div style="display:flex;justify-content:center;margin:6px 0;">
+      <img
+        id="maskot-popup"
+        src="https://i.imgur.com/placeholder.png"
+        alt="Maskot"
+        width="40"
+        height="40"
+        style="object-fit:contain; filter:drop-shadow(0 0 8px #a855f7cc);"
+        onerror="this.outerHTML='<span style=\'font-size:30px;filter:drop-shadow(0 0 8px #a855f7cc);\'>🖤</span>';"
+      />
+    </div>
+    <div class="ptitle" id="pTitle">Genshin</div>
+    <div class="pphoto" id="pPhoto"></div>
+    <div class="pstory" id="pStory"></div>
+    <button class="btn btn-acc" onclick="closeMem()">✕ CLOSE</button>
+  </div>
+</div>
+
+<!-- ========== LEVEL 3 ========== -->
+<div class="screen" id="level3Screen">
+  <div style="max-width:560px;width:100%;text-align:center;">
+    <div class="badge">LEVEL 3 — REASONS I LOVE YOU</div>
+    <div class="stitle">Kumpulkan Semua 💜</div>
+    <p class="stext">Klik setiap hati untuk tau kenapa aku suka kamu.</p>
+    <div class="ccnt" id="ccnt">0 / 8 dikumpulkan</div>
+    <div class="heartcol" id="heartcol"></div>
+    <div id="nextHrt" style="display:none;margin-top:18px;">
+      <p class="stext" style="font-size:13px;color:var(--accent);">Kamu tau kan sekarang betapa banyak hal dari kamu yang aku suka? 💜</p>
+      <button class="btn" onclick="goTo('bossScreen',4)">→ BOSS LEVEL !</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== BOSS ========== -->
+<div class="screen" id="bossScreen">
+  <div style="max-width:540px;width:100%;text-align:center;">
+    <div class="badge">⚠ BOSS LEVEL — LOVE CHALLENGE</div>
+    <div class="stitle">Klik Semua Hatinya! 💜</div>
+    <p class="stext" style="font-size:13px;margin-bottom:6px;">Kumpulkan 15 hati dalam 20 detik!</p>
+    <div class="bscore" id="bscore">SCORE: 0 / 15</div>
+    <div class="btimer" id="btimer">⏱ 20 detik</div>
+    <div class="arena" id="arena"></div>
+    <div id="bossRes" style="display:none;margin-top:18px;text-align:center;">
+      <div class="kuromi-deco">
+        <img
+          id="maskot-boss-win"
+          src="https://i.imgur.com/placeholder.png"
+          alt="Maskot"
+          width="80"
+          height="80"
+          style="object-fit:contain; filter:drop-shadow(0 0 20px #d946efcc); animation:kfloat 2.5s ease-in-out infinite;"
+          onerror="this.outerHTML='<span style=\'font-size:60px;filter:drop-shadow(0 0 20px #d946efcc);animation:kfloat 2.5s ease-in-out infinite;\'>🖤</span>';"
+        />
+      </div>
+      <div class="wintext">💘 YOU WIN MY HEART 💘</div>
+      <p class="stext" style="font-size:13px;">Kamu berhasil! Sama kayak kamu berhasil dapetin hatiku. 😊</p>
+      <button class="btn" onclick="goTo('finalScreen',5)">→ FINAL SCENE 🎂</button>
+    </div>
+    <div id="bstart" style="margin-top:14px;">
+      <button class="btn" id="bstartbtn" onclick="startBoss()">▶ MULAI !</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== FINAL ========== -->
+<div class="screen" id="finalScreen">
+  <div style="max-width:580px;width:100%;text-align:center;">
+    <div class="kuromi-deco" style="margin-bottom:8px;">
+      <img
+        id="maskot-final"
+        class="kuromi-float"
+        src="https://i.imgur.com/placeholder.png"
+        alt="Maskot"
+        width="86"
+        height="86"
+        style="object-fit:contain; filter:drop-shadow(0 0 22px #d946efcc);"
+        onerror="this.outerHTML='<span style=\'font-size:70px;filter:drop-shadow(0 0 22px #d946efcc);animation:kfloat 3s ease-in-out infinite;\'>🖤</span>';"
+      />
+    </div>
+    <div class="bday-ttl">🎂 Happy Birthday 🎂<br>Rahma Adinda Putri</div>
+    <div class="skull-row"><span>💀</span><span>💜</span><span>✦</span><span>💜</span><span>💀</span></div>
+    <div class="pbox ltbox" style="margin-top:14px;">
+      <div class="ltxt" id="ltxt"></div>
+    </div>
+    <div id="fnext" style="margin-top:18px;display:none;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn btn-acc" onclick="goSecret()">🎁 Secret Ending</button>
+      <button class="btn" onclick="goTo('startScreen',0)">↺ Play Again</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SECRET ========== -->
+<div class="screen" id="secretScreen">
+  <div class="pbox" style="padding:38px 30px;max-width:540px;width:100%;text-align:center;">
+    <div class="badge">🎁 SECRET ENDING UNLOCKED</div>
+    <div class="kuromi-deco">
+      <img
+        id="maskot-secret"
+        class="kuromi-float"
+        src="https://i.imgur.com/placeholder.png"
+        alt="Maskot"
+        width="96"
+        height="96"
+        style="object-fit:contain; filter:drop-shadow(0 0 28px #d946efcc);"
+        onerror="this.outerHTML='<span style=\'font-size:80px;filter:drop-shadow(0 0 28px #d946efcc);animation:kfloat 3s ease-in-out infinite;\'>🖤</span>';"
+      />
+    </div>
+    <div class="stitle" style="color:var(--accent);text-shadow:var(--glow3);margin-top:10px;">Untuk Kamu, Sayang</div>
+    <div class="skull-row"><span>💜</span><span>💀</span><span>✦</span><span>💀</span><span>💜</span></div>
+    <div class="smsg" id="smsg"></div>
+    <div style="margin-top:26px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn btn-acc" onclick="launchConf()">🎉 Yay!</button>
+      <button class="btn" onclick="goTo('startScreen',0)">↺ Mulai Lagi</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== CONFIG =====
+const C = {
+  name:"Rahma Adinda Putri", nickname:"Dindut", yourName:"Bimskuy",
+  memories:[
+    {emoji:"💬",title:"Genshin",
+     story:"Masih inget nggak waktu kita pertama kali kita go public terus kita jadi lovers , ishh conba gk ke hack akun kamu pasti sekarang udah level 69+++",
+     photo:"ML.jpeg"
+    },
+    {emoji:"🌸",title:"FIRST DATE",
+     story:"Pertama kali jalan bareng kamu (diroblox) rasanya seneng banget cman aku hapus robloxnya wlee.",
+     photo:"roblox.jpeg"},
+    {emoji:"✨",title:"MOMEN SPESIAL",
+     story:"kapan kita main genshin bareng lagiii.",
+     photo:"genshin.jpeg"}
+  ],
+  reasons:[
+    "Aku suka cara kamu ketawa… 😄",
+    "Kamu selalu ada saat aku butuh. 🤍",
+    "kamu hyper jungler",
+    "Cara kamu cerita. 💛",
+    "Kamu nggak pernah lelah jadi diri sendiri. 🌟",
+    "Aku suka senyum kamuu. 🌸",
+    "Kamu lucuuuuwww. 💪",
+    "kamu orangnya sabar banget ngadepin akuuu 🌙"
+  ],
+  letter:`Sayang,
+
+Hari ini kamu makin tua dan aku pengen bilang bahwa dunia ini jauh lebih baik dengan kehadiran kamu di dalamnya.
+
+ishh geli gk sih bacanya .
+
+Kamu mungkin nggak tau betapa banyak hal kecil yang kamu lakuin yang bikin hari-hariku lebih berwarna. 
+
+Aku harap di ulang tahunmu ini, kamu ngerasa dicintai. Bukan cuma sama aku, tapi sama semua orang yang beruntung kenal sama kamu.
+
+Semoga semua mimpi mimpi kamu kesampaian ya sayangku cintaku maniskuuuu
+
+Selamat ulang tahun, Rahma Adinda Putri.
+Semoga hari ini dan seterusnya kamu bisa lebih banyak senyumnyaaa. 💜
+
+acu 🌙`,
+  secret:`Maaf ya sayang.
+
+aku belum bisa ngasih apa apa , aku juga belum bisa ketemu sama kamu , aku banyak bikin kamu kesel .
+
+Happy Birthday ya , Sayangkuu.
+Semoga tahun ini dan seterusnya bakal lebih indah
+
+💜`
+};
+
+// ===== STAR BG =====
+const sc=document.getElementById('starCanvas'),sctx=sc.getContext('2d');
+let stars=[];
+function initS(){
+  sc.width=window.innerWidth;sc.height=window.innerHeight;
+  stars=[];
+  for(let i=0;i<180;i++)stars.push({
+    x:Math.random()*sc.width,y:Math.random()*sc.height,
+    r:Math.random()*1.6+.3,a:Math.random(),spd:Math.random()*.009+.003
+  });
+}
+function drawS(){
+  sctx.clearRect(0,0,sc.width,sc.height);
+  stars.forEach(s=>{
+    s.a+=s.spd;
+    const al=(Math.sin(s.a)+1)/2;
+    sctx.beginPath();sctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    sctx.fillStyle=`rgba(220,200,255,${al*.9})`;
+    sctx.shadowBlur=5;sctx.shadowColor='#a855f7';
+    sctx.fill();
+  });
+  requestAnimationFrame(drawS);
+}
+initS();drawS();
+window.addEventListener('resize',initS);
+
+// ===== FLOATERS =====
+const fSyms=['💜','💀','✦','🌟','💫','☆','♥'];
+function spawnFlt(){
+  const el=document.createElement('div');
+  el.className='flt';
+  el.textContent=fSyms[Math.floor(Math.random()*fSyms.length)];
+  el.style.left=Math.random()*100+'vw';
+  const dur=9+Math.random()*10;
+  el.style.animationDuration=dur+'s';
+  el.style.fontSize=(10+Math.random()*14)+'px';
+  el.style.animationDelay=Math.random()*4+'s';
+  el.style.color=['#a855f7','#d946ef','#c084fc','#7b2fff'][Math.floor(Math.random()*4)];
+  document.getElementById('floaters').appendChild(el);
+  setTimeout(()=>el.remove(),(dur+5)*1000);
+}
+setInterval(spawnFlt,1100);
+for(let i=0;i<10;i++)setTimeout(spawnFlt,i*250);
+
+// ===== PIXEL CHARS =====
+function drawChar(cvs,c){
+  const ctx=cvs.getContext('2d'),sc=4,w=16,h=22;
+  cvs.width=w*sc;cvs.height=h*sc;
+  ctx.imageSmoothingEnabled=false;
+  const p=(x,y,col)=>{ctx.fillStyle=col;ctx.fillRect(x*sc,y*sc,sc,sc);};
+  [[4,1],[5,1],[6,1],[7,1],[8,1],[9,1],[10,1],[11,1],
+   [3,2],[4,2],[5,2],[6,2],[7,2],[8,2],[9,2],[10,2],[11,2],[12,2],
+   [3,3],[4,3],[5,3],[6,3],[7,3],[8,3],[9,3],[10,3],[11,3],[12,3],
+   [3,4],[12,4],[3,5],[12,5],[3,6],[12,6],
+   [3,7],[4,7],[5,7],[6,7],[7,7],[8,7],[9,7],[10,7],[11,7],[12,7]
+  ].forEach(([x,y])=>p(x,y,c.skin));
+  [[5,3],[6,3],[9,3],[10,3]].forEach(([x,y])=>p(x,y,'#0c0715'));
+  [[5,8],[6,8],[7,8],[8,8],[9,8],[10,8],
+   [4,9],[5,9],[6,9],[7,9],[8,9],[9,9],[10,9],[11,9],
+   [4,10],[11,10],[4,11],[11,11],[4,12],[11,12],
+   [5,13],[6,13],[7,13],[8,13],[9,13],[10,13]
+  ].forEach(([x,y])=>p(x,y,c.body));
+  [[5,14],[6,14],[9,14],[10,14],
+   [5,15],[6,15],[9,15],[10,15]
+  ].forEach(([x,y])=>p(x,y,c.skin));
+}
+function initChars(){
+  const sc1=document.getElementById('pixelScene1');
+  if(sc1.children.length>0)return;
+  const chars=[
+    {name:C.yourName,colors:{skin:'#d4b8e0',body:'#7b2fff'}},
+    {name:C.nickname,colors:{skin:'#e8d5f0',body:'#a855f7'}}
+  ];
+  const heart=document.createElement('div');
+  heart.style.cssText='font-size:26px;filter:drop-shadow(0 0 8px #d946ef);animation:charBob 1.5s ease-in-out infinite;align-self:center;';
+  heart.textContent='💜';
+  chars.forEach((c,i)=>{
+    const wrap=document.createElement('div');
+    wrap.className='pchr';
+    const cvs=document.createElement('canvas');
+    drawChar(cvs,c.colors);
+    const lbl=document.createElement('div');
+    lbl.className='chrname';lbl.textContent=c.name;
+    wrap.appendChild(cvs);wrap.appendChild(lbl);
+    sc1.appendChild(wrap);
+    if(i===0)sc1.appendChild(heart);
+  });
+  setTimeout(()=>document.getElementById('l1txt').style.opacity='1',700);
+}
+
+// ===== NAV =====
+let curScreen='startScreen';
+function goTo(id,step){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  curScreen=id;
+  document.querySelectorAll('.nd').forEach((d,i)=>d.classList.toggle('active',i===step));
+  playClk();
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='level1Screen')initChars();
+  if(id==='level3Screen')initHearts();
+  if(id==='finalScreen')startLetter();
+  if(id==='secretScreen'){typeSecret();launchConf();document.getElementById('strig').classList.remove('vis');}
+}
+
+// =====================================================
+// BUG FIX #1: startGame() — BGM play dipindah ke sini
+// dengan try/catch supaya tidak crash jika file tidak ada
+// =====================================================
+function startGame(){
+  playClk();
+  const bgm = document.getElementById('bgm');
+  bgm.volume = 0.4;
+  bgm.play().catch(()=>{}); // catch error jika file tidak ada / autoplay diblokir
+  goTo('level1Screen',1);
+}
+
+// ===== MEMORIES =====
+let memVis=new Set();
+function openMem(idx){
+  const m=C.memories[idx-1];
+  document.getElementById('pEmoji').textContent=m.emoji;
+  document.getElementById('pTitle').textContent=m.title;
+  document.getElementById('pStory').textContent=m.story;
+  const ph=document.getElementById('pPhoto');
+  if(m.photo){
+    ph.innerHTML=`<img src="${m.photo}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.innerHTML='📸 Foto belum tersedia'">`;
+  } else {
+    ph.textContent='📸 Taruh foto kamu & Sayang di sini';
+  }
+  document.getElementById('memPopup').classList.add('open');
+  document.getElementById('mc'+idx).classList.add('visited');
+  memVis.add(idx);playCol();
+  if(memVis.size>=3)document.getElementById('nextMem').style.display='block';
+}
+function closeMem(){document.getElementById('memPopup').classList.remove('open');}
+
+// ===== HEARTS =====
+let hCol=0;
+function initHearts(){
+  const con=document.getElementById('heartcol');
+  if(con.children.length>0)return;
+  C.reasons.forEach((r,i)=>{
+    const h=document.createElement('div');
+    h.className='hitem';h.textContent='💜';
+    h.onclick=e=>collectH(e,h,r);
+    con.appendChild(h);
+  });
+}
+function collectH(e,el,r){
+  if(el.classList.contains('col'))return;
+  el.classList.add('col');el.textContent='💛';
+  hCol++;
+  document.getElementById('ccnt').textContent=`${hCol} / ${C.reasons.length} dikumpulkan`;
+  const rp=document.createElement('div');
+  rp.className='rp';rp.textContent=r;
+  rp.style.left=(e.clientX-105)+'px';rp.style.top=(e.clientY-16)+'px';
+  document.body.appendChild(rp);setTimeout(()=>rp.remove(),2100);
+  spawnSpk(e.clientX,e.clientY);playCol();
+  if(hCol>=C.reasons.length)setTimeout(()=>document.getElementById('nextHrt').style.display='block',500);
+}
+
+// ===== BOSS =====
+let bsc=0,bact=false,biv=null,btv=null,btval=20;
+function startBoss(){
+  document.getElementById('bstartbtn').style.display='none';
+  bsc=0;btval=20;bact=true;
+  updBoss();spawnBH();
+  biv=setInterval(spawnBH,850);
+  btv=setInterval(()=>{
+    btval--;document.getElementById('btimer').textContent=`⏱ ${btval} detik`;
+    if(btval<=0)endBoss();
+  },1000);
+}
+function spawnBH(){
+  if(!bact)return;
+  const ar=document.getElementById('arena');
+  const h=document.createElement('div');
+  h.className='bhrt';
+  h.textContent=['💜','💗','💖','💕'][Math.floor(Math.random()*4)];
+  h.style.left=Math.max(5,Math.random()*(ar.offsetWidth-50))+'px';
+  h.style.top=Math.max(5,Math.random()*(ar.offsetHeight-50))+'px';
+  h.onclick=ev=>{
+    if(!bact)return;ev.stopPropagation();
+    bsc++;updBoss();spawnSpk(ev.clientX,ev.clientY);playCol();h.remove();
+    if(bsc>=15)endBoss(true);
+  };
+  ar.appendChild(h);
+  setTimeout(()=>{if(h.parentNode)h.remove();},2100);
+}
+function updBoss(){document.getElementById('bscore').textContent=`SCORE: ${bsc} / 15`;}
+function endBoss(won){
+  bact=false;clearInterval(biv);clearInterval(btv);
+  document.getElementById('arena').innerHTML='';
+  document.getElementById('btimer').textContent='';
+  document.getElementById('bossRes').style.display='block';
+  document.getElementById('bstartbtn').style.display='none';
+  launchConf();playWin();
+}
+
+// ===== LETTER =====
+let ldone=false;
+function startLetter(){
+  if(ldone)return;ldone=true;
+  const el=document.getElementById('ltxt');el.innerHTML='';
+  let i=0;
+  function next(){
+    if(i>=C.letter.length){
+      setTimeout(()=>{
+        document.getElementById('fnext').style.display='flex';
+        document.getElementById('strig').classList.add('vis');
+      },400);return;
+    }
+    const sp=document.createElement('span');
+    sp.textContent=C.letter[i];sp.className='lc';sp.style.animationDelay='0s';
+    el.appendChild(sp);setTimeout(()=>sp.style.opacity='1',10);i++;
+    setTimeout(next,C.letter[i-1]==='\n'?32:22);
+  }
+  next();
+}
+
+// ===== SECRET =====
+function typeSecret(){
+  const el=document.getElementById('smsg');el.innerHTML='';
+  let i=0;
+  function next(){
+    if(i>=C.secret.length)return;
+    const sp=document.createElement('span');
+    sp.textContent=C.secret[i];el.appendChild(sp);
+    setTimeout(()=>sp.style.opacity='1',10);i++;
+    setTimeout(next,C.secret[i-1]==='\n'?40:16);
+  }
+  next();
+}
+function goSecret(){goTo('secretScreen',5);}
+
+// ===== CONFETTI =====
+const cc=document.getElementById('confCanvas'),cctx=cc.getContext('2d');
+let cps=[],cact=false;
+function launchConf(){
+  cc.width=window.innerWidth;cc.height=window.innerHeight;
+  cps=[];cact=true;
+  const cols=['#7b2fff','#a855f7','#d946ef','#c084fc','#e9d5ff','#f0e0ff'];
+  for(let i=0;i<220;i++)cps.push({
+    x:Math.random()*cc.width,y:-20-Math.random()*200,
+    vx:(Math.random()-.5)*3,vy:1.5+Math.random()*2.5,
+    color:cols[Math.floor(Math.random()*cols.length)],
+    w:5+Math.random()*8,h:7+Math.random()*10,
+    rot:Math.random()*360,vr:(Math.random()-.5)*6
+  });
+  animConf();
+  setTimeout(()=>{cact=false;cctx.clearRect(0,0,cc.width,cc.height);},5500);
+}
+function animConf(){
+  if(!cact)return;
+  cctx.clearRect(0,0,cc.width,cc.height);
+  cps=cps.filter(p=>p.y<cc.height+30);
+  cps.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;
+    cctx.save();cctx.translate(p.x,p.y);cctx.rotate(p.rot*Math.PI/180);
+    cctx.fillStyle=p.color;cctx.globalAlpha=.9;
+    cctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+    cctx.restore();
+  });
+  requestAnimationFrame(animConf);
+}
+
+// ===== SPARKLES =====
+function spawnSpk(x,y){
+  ['✨','💫','⭐','💜','✦'].forEach((s,i)=>{
+    const el=document.createElement('div');el.className='spk';el.textContent=s;
+    const a=(i/5)*Math.PI*2,d=28+Math.random()*38;
+    el.style.left=(x+Math.cos(a)*d-9)+'px';el.style.top=(y+Math.sin(a)*d-9)+'px';
+    document.body.appendChild(el);setTimeout(()=>el.remove(),850);
+  });
+}
+
+// ===== AUDIO =====
+let actx=null,snd=false;
+function getAC(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx;}
+function playClk(){
+  if(!snd)return;try{
+    const c=getAC(),o=c.createOscillator(),g=c.createGain();
+    o.connect(g);g.connect(c.destination);o.type='sine';
+    o.frequency.setValueAtTime(520,c.currentTime);
+    o.frequency.exponentialRampToValueAtTime(760,c.currentTime+.09);
+    g.gain.setValueAtTime(.12,c.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.14);
+    o.start();o.stop(c.currentTime+.14);
+  }catch(e){}
+}
+function playCol(){
+  if(!snd)return;try{
+    const c=getAC();
+    [440,550,660].forEach((f,i)=>{
+      const o=c.createOscillator(),g=c.createGain();
+      o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.value=f;
+      g.gain.setValueAtTime(0,c.currentTime+i*.1);
+      g.gain.linearRampToValueAtTime(.1,c.currentTime+i*.1+.05);
+      g.gain.exponentialRampToValueAtTime(.001,c.currentTime+i*.1+.2);
+      o.start(c.currentTime+i*.1);o.stop(c.currentTime+i*.1+.25);
+    });
+  }catch(e){}
+}
+function playWin(){
+  if(!snd)return;try{
+    const c=getAC();
+    [440,494,523,587,659,698,784,880].forEach((f,i)=>{
+      const o=c.createOscillator(),g=c.createGain();
+      o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.value=f;
+      g.gain.setValueAtTime(0,c.currentTime+i*.11);
+      g.gain.linearRampToValueAtTime(.12,c.currentTime+i*.11+.05);
+      g.gain.exponentialRampToValueAtTime(.001,c.currentTime+i*.11+.22);
+      o.start(c.currentTime+i*.11);o.stop(c.currentTime+i*.11+.28);
+    });
+  }catch(e){}
+}
+
+// =====================================================
+// BUG FIX #2 & #3: Event listener tombol SFX diperbaiki
+// Kode yang "mengambang" di luar listener dihapus,
+// semua logic masuk ke dalam satu addEventListener
+// =====================================================
+document.getElementById('sbtn').addEventListener('click', function(){
+  snd = !snd;
+  this.textContent = snd ? '🔊 ON' : '🎵 OFF';
+
+  const bgm = document.getElementById('bgm');
+  if(snd){
+    bgm.play().catch(()=>{});
+    try{ getAC().resume(); }catch(e){}
+    playCol();
+  } else {
+    bgm.pause();
+  }
+});
+
+window.addEventListener('keydown',e=>{
+  if((e.key==='Enter'||e.key===' ')&&curScreen==='startScreen')startGame();
+  if(e.key===' ')e.preventDefault();
+});
+window.addEventListener('resize',()=>{
+  cc.width=window.innerWidth;
+  cc.height=window.innerHeight;
+});
+</script>
+</body>
+</html>
